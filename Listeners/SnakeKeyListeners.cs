@@ -51,3 +51,14 @@ public class SnakeSpaceKeyHandler : KeyHandler
         _toggle = !_toggle;
     }
 }
+
+
+public class SnakeEscKeyHandler : KeyHandler
+{
+    protected override ConsoleKey Key { get; set; } = ConsoleKey.Escape;
+
+    public override void Run(Game game)
+    {
+        game.Stop = true;
+    }
+}
