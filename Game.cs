@@ -5,9 +5,11 @@ namespace SnakeGame;
 public class Game
 {
     private readonly Position GamePosition = new(5, 3);
-    private readonly List<IDrawable> _drawables = [];
+    public List<IDrawable> Drawables { get; set; } = [];
 
     private List<KeyHandler> _keyEventHandlers = [];
+
+    public bool Stop { get; set; } = false;
 
     public Arena Arena { get; set; }
     public Snake Snake { get; set; }
@@ -76,22 +78,22 @@ public class Game
     public void InitDrawables()
     {
         Arena = new(Width, Height, GamePosition);
-        _drawables.Add(Arena);
+        Drawables.Add(Arena);
 
         Snake = new(Arena.Center);
-        _drawables.Add(Snake);
+        Drawables.Add(Snake);
 
         Fruit = new(RandomPosition);
-        _drawables.Add(Fruit);
+        Drawables.Add(Fruit);
 
         Score = new(new Position(5, 1));
-        _drawables.Add(Score);
+        Drawables.Add(Score);
 
         Message = new(new Position(25, 1));
-        _drawables.Add(Message);
+        Drawables.Add(Message);
 
         Hint hint = new(new Position(5, Height + 5));
-        _drawables.Add(hint);
+        Drawables.Add(hint);
     }
 
     public void Start()
@@ -100,32 +102,37 @@ public class Game
 
         Console.Clear();
 
-        while (true)
+        while (!Stop)
         {
-            bool canContinue = FrameLogic();
-
+            FrameLogic();
             UpdateFrame();
-            if (!canContinue) break;
-
             Thread.Sleep((int)(250 / Snake.Speed));
         }
+
+        Message message = new(new Position(5, Height + 7))
+        {
+            Data = "Press Enter to quit..."
+        };
+        message.Draw();
 
         Console.ReadLine();
         Console.Clear();
     }
 
-    private bool FrameLogic()
+    private void FrameLogic()
     {
         if (Snake.Collides(Arena) || Snake.Collides(Snake.Tails))
         {
-            Message.Lose();
-            return false;
+            Message.Data = "You lose!";
+            Stop = true;
+            return;
         }
 
         if (Score.Value == MaxScore)
         {
-            Message.Win();
-            return false;
+            Message.Data = "You win!";
+            Stop = true;
+            return;
         }
 
         ListenForKeys();
@@ -139,14 +146,12 @@ public class Game
 
             Fruit.Position = RandomPosition;
         }
-
-        return true;
     }
 
     private void UpdateFrame()
     {
         Console.Clear();
-        foreach (IDrawable drawable in _drawables)
+        foreach (IDrawable drawable in Drawables)
         {
             drawable.Draw();
         }
@@ -177,6 +182,7 @@ public class Game
             new SnakeLeftArrowKeyHandler(),
             new SnakeRightArrowKeyHandler(),
             new SnakeSpaceKeyHandler(),
+            new SnakeEscKeyHandler(),
         ];
     }
 }
