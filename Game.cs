@@ -5,9 +5,9 @@ namespace SnakeGame;
 public class Game
 {
     private readonly Position GamePosition = new(5, 3);
-    public List<IDrawable> Drawables { get; set; } = [];
+    public List<IDrawable> Drawables { get; } = [];
 
-    private List<KeyHandler> _keyEventHandlers = [];
+    private readonly List<KeyHandler> _keyEventHandlers = [];
 
     public bool Stop { get; set; } = false;
 
