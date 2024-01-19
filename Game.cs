@@ -39,22 +39,23 @@ public class Game
         }
     }
 
-    public Position? RandomPosition
+    public Position RandomPosition
     {
         get
         {
             Random random = new();
             int index = random.Next(0, EmptyPositions.Count);
-            try
+            if (index > EmptyPositions.Count() - 1)
+            {
+                return Position.Hidden;
+            }
+            else
             {
                 return EmptyPositions[index];
             }
-            catch
-            {
-                return null;
-            }
         }
     }
+
 
     public int Width { get; set; } = 31;
     public int Height { get; set; } = 15;

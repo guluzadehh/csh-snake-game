@@ -5,6 +5,8 @@ public class Position
     public int X { get; set; }
     public int Y { get; set; }
 
+    public static Position Hidden { get; } = new(-1, -1);
+
     public Position(int x, int y) => (X, Y) = (x, y);
 
     public bool Contacts(Position position)
