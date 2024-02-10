@@ -16,7 +16,7 @@ public abstract class Collidable(Position position) : Movable(position)
     }
 }
 
-public abstract class CompoundCollidable : IEnumerable
+public abstract class CompoundCollidable : BaseDrawable, IEnumerable
 {
     public bool Collides(CompoundCollidable compoundCollidable)
     {

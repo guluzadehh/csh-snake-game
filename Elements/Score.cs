@@ -8,9 +8,9 @@ public class Score(Position position) : Drawable(position)
 
     public int Value { get; set; } = 0;
 
-    public override object Display()
+    public override object Render()
     {
-        return base.Display() + Value.ToString();
+        return base.Render() + Value.ToString();
     }
 
     public static Score operator ++(Score score)

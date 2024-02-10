@@ -10,6 +10,7 @@ public class Game
     private readonly List<KeyHandler> _keyEventHandlers = [];
 
     public bool Stop { get; set; } = false;
+    private IDisplay _display;
 
     public Arena Arena { get; set; }
     public Snake Snake { get; set; }
@@ -70,8 +71,9 @@ public class Game
         }
     }
 
-    public Game()
+    public Game(IDisplay display)
     {
+        _display = display;
         _keyEventHandlers = InitKeyHandlers();
     }
 
@@ -113,7 +115,7 @@ public class Game
         {
             Data = "Press Enter to quit..."
         };
-        message.Draw();
+        message.Draw(_display);
 
         Console.ReadLine();
         Console.Clear();
@@ -153,7 +155,7 @@ public class Game
         Console.Clear();
         foreach (IDrawable drawable in Drawables)
         {
-            drawable.Draw();
+            drawable.Draw(_display);
         }
     }
 

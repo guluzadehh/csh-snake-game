@@ -76,14 +76,6 @@ public class Snake : CompoundCollidable, IDrawable
         return tail;
     }
 
-    public void Draw()
-    {
-        foreach (BodyPart bodyPart in _bodyParts)
-        {
-            bodyPart.Draw();
-        }
-    }
-
     public override bool Collides(Collidable collidable)
     {
         return Head.Collides(collidable);
@@ -93,11 +85,19 @@ public class Snake : CompoundCollidable, IDrawable
     {
         return (IEnumerator)_bodyParts.GetEnumerator();
     }
+
+    public override void Draw(IDisplay display)
+    {
+        foreach (BodyPart bodyPart in _bodyParts)
+        {
+            bodyPart.Draw(display);
+        }
+    }
 }
 
 public abstract class BodyPart(Position position, Direction direction) : Collidable(position)
 {
-    private SnakeDirection _snakeDirection = new SnakeDirection(direction);
+    private SnakeDirection _snakeDirection = new(direction);
     public Direction Direction
     {
         get { return _snakeDirection.Direction; }

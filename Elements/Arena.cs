@@ -31,11 +31,11 @@ public class Arena : CompoundCollidable, IDrawable
 
     }
 
-    public void Draw()
+    public override void Draw(IDisplay display)
     {
         foreach (Border border in Borders)
         {
-            border.Draw();
+            border.Draw(display);
         }
     }
 

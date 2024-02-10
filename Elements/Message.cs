@@ -8,8 +8,8 @@ public class Message(Position position) : Drawable(position)
 
     public string Data { get; set; } = "";
 
-    public override object Display()
+    public override object Render()
     {
-        return base.Display() + Data;
+        return base.Render() + Data;
     }
 }
